@@ -11,25 +11,30 @@ public class ThriftServiceImpl implements Iface {
 	}
 
 	@Override
-	public int getMyInteger() throws TException {
-		System.out.println("run getMyInteger()...");
-		
-		return 11;
-	}
-
-	@Override
 	public String testString() throws TException {
-//		return null;
+		// return null;
 		return "Hello World!";
 	}
 
 	@Override
 	public SharedStruct getSharedStruct() throws TException {
-//		return null;
+		// return null;
 		SharedStruct sharedStruct = new SharedStruct();
 		sharedStruct.setKey(1);
-		sharedStruct.setValue("ado");
+		// 支持内部字段为null
+		sharedStruct.setValue(null);
+		InnerStruct innerStruct = new InnerStruct();
+		innerStruct.setKey(1);
+		innerStruct.setValue("inner struct");
+		sharedStruct.setInnerStruct(innerStruct);
 		return sharedStruct;
+	}
+
+	@Override
+	public int getMyInteger(int arg1, String arg2) throws TException {
+		System.out.println("run getMyInteger()...args: " + arg1 + ", " + arg2);
+
+		return 11;
 	}
 
 }

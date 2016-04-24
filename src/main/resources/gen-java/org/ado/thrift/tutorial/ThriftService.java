@@ -33,7 +33,7 @@ public class ThriftService {
 
     public void testVoid() throws org.apache.thrift.TException;
 
-    public int getMyInteger() throws org.apache.thrift.TException;
+    public int getMyInteger(int arg1, String name) throws org.apache.thrift.TException;
 
     public String testString() throws org.apache.thrift.TException;
 
@@ -45,7 +45,7 @@ public class ThriftService {
 
     public void testVoid(org.apache.thrift.async.AsyncMethodCallback<AsyncClient.testVoid_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void getMyInteger(org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getMyInteger_call> resultHandler) throws org.apache.thrift.TException;
+    public void getMyInteger(int arg1, String name, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getMyInteger_call> resultHandler) throws org.apache.thrift.TException;
 
     public void testString(org.apache.thrift.async.AsyncMethodCallback<AsyncClient.testString_call> resultHandler) throws org.apache.thrift.TException;
 
@@ -92,15 +92,17 @@ public class ThriftService {
       return;
     }
 
-    public int getMyInteger() throws org.apache.thrift.TException
+    public int getMyInteger(int arg1, String name) throws org.apache.thrift.TException
     {
-      send_getMyInteger();
+      send_getMyInteger(arg1, name);
       return recv_getMyInteger();
     }
 
-    public void send_getMyInteger() throws org.apache.thrift.TException
+    public void send_getMyInteger(int arg1, String name) throws org.apache.thrift.TException
     {
       getMyInteger_args args = new getMyInteger_args();
+      args.setArg1(arg1);
+      args.setName(name);
       sendBase("getMyInteger", args);
     }
 
@@ -205,21 +207,27 @@ public class ThriftService {
       }
     }
 
-    public void getMyInteger(org.apache.thrift.async.AsyncMethodCallback<getMyInteger_call> resultHandler) throws org.apache.thrift.TException {
+    public void getMyInteger(int arg1, String name, org.apache.thrift.async.AsyncMethodCallback<getMyInteger_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      getMyInteger_call method_call = new getMyInteger_call(resultHandler, this, ___protocolFactory, ___transport);
+      getMyInteger_call method_call = new getMyInteger_call(arg1, name, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
     public static class getMyInteger_call extends org.apache.thrift.async.TAsyncMethodCall {
-      public getMyInteger_call(org.apache.thrift.async.AsyncMethodCallback<getMyInteger_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private int arg1;
+      private String name;
+      public getMyInteger_call(int arg1, String name, org.apache.thrift.async.AsyncMethodCallback<getMyInteger_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
+        this.arg1 = arg1;
+        this.name = name;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getMyInteger", org.apache.thrift.protocol.TMessageType.CALL, 0));
         getMyInteger_args args = new getMyInteger_args();
+        args.setArg1(arg1);
+        args.setName(name);
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -339,7 +347,7 @@ public class ThriftService {
 
       protected getMyInteger_result getResult(I iface, getMyInteger_args args) throws org.apache.thrift.TException {
         getMyInteger_result result = new getMyInteger_result();
-        result.success = iface.getMyInteger();
+        result.success = iface.getMyInteger(args.arg1, args.name);
         result.setSuccessIsSet(true);
         return result;
       }
@@ -872,6 +880,8 @@ public class ThriftService {
   public static class getMyInteger_args implements org.apache.thrift.TBase<getMyInteger_args, getMyInteger_args._Fields>, java.io.Serializable, Cloneable   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getMyInteger_args");
 
+    private static final org.apache.thrift.protocol.TField ARG1_FIELD_DESC = new org.apache.thrift.protocol.TField("arg1", org.apache.thrift.protocol.TType.I32, (short)1);
+    private static final org.apache.thrift.protocol.TField NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("name", org.apache.thrift.protocol.TType.STRING, (short)2);
 
     private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
     static {
@@ -879,10 +889,13 @@ public class ThriftService {
       schemes.put(TupleScheme.class, new getMyInteger_argsTupleSchemeFactory());
     }
 
+    public int arg1; // required
+    public String name; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-;
+      ARG1((short)1, "arg1"),
+      NAME((short)2, "name");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -897,6 +910,10 @@ public class ThriftService {
        */
       public static _Fields findByThriftId(int fieldId) {
         switch(fieldId) {
+          case 1: // ARG1
+            return ARG1;
+          case 2: // NAME
+            return NAME;
           default:
             return null;
         }
@@ -935,9 +952,17 @@ public class ThriftService {
         return _fieldName;
       }
     }
+
+    // isset id assignments
+    private static final int __ARG1_ISSET_ID = 0;
+    private BitSet __isset_bit_vector = new BitSet(1);
     public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.ARG1, new org.apache.thrift.meta_data.FieldMetaData("arg1", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32          , "MyInteger")));
+      tmpMap.put(_Fields.NAME, new org.apache.thrift.meta_data.FieldMetaData("name", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getMyInteger_args.class, metaDataMap);
     }
@@ -945,10 +970,26 @@ public class ThriftService {
     public getMyInteger_args() {
     }
 
+    public getMyInteger_args(
+      int arg1,
+      String name)
+    {
+      this();
+      this.arg1 = arg1;
+      setArg1IsSet(true);
+      this.name = name;
+    }
+
     /**
      * Performs a deep copy on <i>other</i>.
      */
     public getMyInteger_args(getMyInteger_args other) {
+      __isset_bit_vector.clear();
+      __isset_bit_vector.or(other.__isset_bit_vector);
+      this.arg1 = other.arg1;
+      if (other.isSetName()) {
+        this.name = other.name;
+      }
     }
 
     public getMyInteger_args deepCopy() {
@@ -957,15 +998,87 @@ public class ThriftService {
 
     @Override
     public void clear() {
+      setArg1IsSet(false);
+      this.arg1 = 0;
+      this.name = null;
+    }
+
+    public int getArg1() {
+      return this.arg1;
+    }
+
+    public getMyInteger_args setArg1(int arg1) {
+      this.arg1 = arg1;
+      setArg1IsSet(true);
+      return this;
+    }
+
+    public void unsetArg1() {
+      __isset_bit_vector.clear(__ARG1_ISSET_ID);
+    }
+
+    /** Returns true if field arg1 is set (has been assigned a value) and false otherwise */
+    public boolean isSetArg1() {
+      return __isset_bit_vector.get(__ARG1_ISSET_ID);
+    }
+
+    public void setArg1IsSet(boolean value) {
+      __isset_bit_vector.set(__ARG1_ISSET_ID, value);
+    }
+
+    public String getName() {
+      return this.name;
+    }
+
+    public getMyInteger_args setName(String name) {
+      this.name = name;
+      return this;
+    }
+
+    public void unsetName() {
+      this.name = null;
+    }
+
+    /** Returns true if field name is set (has been assigned a value) and false otherwise */
+    public boolean isSetName() {
+      return this.name != null;
+    }
+
+    public void setNameIsSet(boolean value) {
+      if (!value) {
+        this.name = null;
+      }
     }
 
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
+      case ARG1:
+        if (value == null) {
+          unsetArg1();
+        } else {
+          setArg1((Integer)value);
+        }
+        break;
+
+      case NAME:
+        if (value == null) {
+          unsetName();
+        } else {
+          setName((String)value);
+        }
+        break;
+
       }
     }
 
     public Object getFieldValue(_Fields field) {
       switch (field) {
+      case ARG1:
+        return Integer.valueOf(getArg1());
+
+      case NAME:
+        return getName();
+
       }
       throw new IllegalStateException();
     }
@@ -977,6 +1090,10 @@ public class ThriftService {
       }
 
       switch (field) {
+      case ARG1:
+        return isSetArg1();
+      case NAME:
+        return isSetName();
       }
       throw new IllegalStateException();
     }
@@ -994,6 +1111,24 @@ public class ThriftService {
       if (that == null)
         return false;
 
+      boolean this_present_arg1 = true;
+      boolean that_present_arg1 = true;
+      if (this_present_arg1 || that_present_arg1) {
+        if (!(this_present_arg1 && that_present_arg1))
+          return false;
+        if (this.arg1 != that.arg1)
+          return false;
+      }
+
+      boolean this_present_name = true && this.isSetName();
+      boolean that_present_name = true && that.isSetName();
+      if (this_present_name || that_present_name) {
+        if (!(this_present_name && that_present_name))
+          return false;
+        if (!this.name.equals(that.name))
+          return false;
+      }
+
       return true;
     }
 
@@ -1010,6 +1145,26 @@ public class ThriftService {
       int lastComparison = 0;
       getMyInteger_args typedOther = (getMyInteger_args)other;
 
+      lastComparison = Boolean.valueOf(isSetArg1()).compareTo(typedOther.isSetArg1());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetArg1()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.arg1, typedOther.arg1);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetName()).compareTo(typedOther.isSetName());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetName()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.name, typedOther.name);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
       return 0;
     }
 
@@ -1030,6 +1185,17 @@ public class ThriftService {
       StringBuilder sb = new StringBuilder("getMyInteger_args(");
       boolean first = true;
 
+      sb.append("arg1:");
+      sb.append(this.arg1);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("name:");
+      if (this.name == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.name);
+      }
+      first = false;
       sb.append(")");
       return sb.toString();
     }
@@ -1048,6 +1214,8 @@ public class ThriftService {
 
     private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
       try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bit_vector = new BitSet(1);
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
       } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
@@ -1072,6 +1240,22 @@ public class ThriftService {
             break;
           }
           switch (schemeField.id) {
+            case 1: // ARG1
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.arg1 = iprot.readI32();
+                struct.setArg1IsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // NAME
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+                struct.name = iprot.readString();
+                struct.setNameIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
             default:
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
           }
@@ -1087,6 +1271,14 @@ public class ThriftService {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(ARG1_FIELD_DESC);
+        oprot.writeI32(struct.arg1);
+        oprot.writeFieldEnd();
+        if (struct.name != null) {
+          oprot.writeFieldBegin(NAME_FIELD_DESC);
+          oprot.writeString(struct.name);
+          oprot.writeFieldEnd();
+        }
         oprot.writeFieldStop();
         oprot.writeStructEnd();
       }
@@ -1104,11 +1296,34 @@ public class ThriftService {
       @Override
       public void write(org.apache.thrift.protocol.TProtocol prot, getMyInteger_args struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
+        BitSet optionals = new BitSet();
+        if (struct.isSetArg1()) {
+          optionals.set(0);
+        }
+        if (struct.isSetName()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetArg1()) {
+          oprot.writeI32(struct.arg1);
+        }
+        if (struct.isSetName()) {
+          oprot.writeString(struct.name);
+        }
       }
 
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, getMyInteger_args struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
+        BitSet incoming = iprot.readBitSet(2);
+        if (incoming.get(0)) {
+          struct.arg1 = iprot.readI32();
+          struct.setArg1IsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.name = iprot.readString();
+          struct.setNameIsSet(true);
+        }
       }
     }
 

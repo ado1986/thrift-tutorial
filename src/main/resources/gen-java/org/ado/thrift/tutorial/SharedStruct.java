@@ -32,6 +32,7 @@ public class SharedStruct implements org.apache.thrift.TBase<SharedStruct, Share
 
   private static final org.apache.thrift.protocol.TField KEY_FIELD_DESC = new org.apache.thrift.protocol.TField("key", org.apache.thrift.protocol.TType.I32, (short)1);
   private static final org.apache.thrift.protocol.TField VALUE_FIELD_DESC = new org.apache.thrift.protocol.TField("value", org.apache.thrift.protocol.TType.STRING, (short)2);
+  private static final org.apache.thrift.protocol.TField INNER_STRUCT_FIELD_DESC = new org.apache.thrift.protocol.TField("innerStruct", org.apache.thrift.protocol.TType.STRUCT, (short)3);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
@@ -41,11 +42,13 @@ public class SharedStruct implements org.apache.thrift.TBase<SharedStruct, Share
 
   public int key; // required
   public String value; // required
+  public InnerStruct innerStruct; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     KEY((short)1, "key"),
-    VALUE((short)2, "value");
+    VALUE((short)2, "value"),
+    INNER_STRUCT((short)3, "innerStruct");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -64,6 +67,8 @@ public class SharedStruct implements org.apache.thrift.TBase<SharedStruct, Share
           return KEY;
         case 2: // VALUE
           return VALUE;
+        case 3: // INNER_STRUCT
+          return INNER_STRUCT;
         default:
           return null;
       }
@@ -113,6 +118,8 @@ public class SharedStruct implements org.apache.thrift.TBase<SharedStruct, Share
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
     tmpMap.put(_Fields.VALUE, new org.apache.thrift.meta_data.FieldMetaData("value", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.INNER_STRUCT, new org.apache.thrift.meta_data.FieldMetaData("innerStruct", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, InnerStruct.class)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(SharedStruct.class, metaDataMap);
   }
@@ -122,12 +129,14 @@ public class SharedStruct implements org.apache.thrift.TBase<SharedStruct, Share
 
   public SharedStruct(
     int key,
-    String value)
+    String value,
+    InnerStruct innerStruct)
   {
     this();
     this.key = key;
     setKeyIsSet(true);
     this.value = value;
+    this.innerStruct = innerStruct;
   }
 
   /**
@@ -140,6 +149,9 @@ public class SharedStruct implements org.apache.thrift.TBase<SharedStruct, Share
     if (other.isSetValue()) {
       this.value = other.value;
     }
+    if (other.isSetInnerStruct()) {
+      this.innerStruct = new InnerStruct(other.innerStruct);
+    }
   }
 
   public SharedStruct deepCopy() {
@@ -151,6 +163,7 @@ public class SharedStruct implements org.apache.thrift.TBase<SharedStruct, Share
     setKeyIsSet(false);
     this.key = 0;
     this.value = null;
+    this.innerStruct = null;
   }
 
   public int getKey() {
@@ -200,6 +213,30 @@ public class SharedStruct implements org.apache.thrift.TBase<SharedStruct, Share
     }
   }
 
+  public InnerStruct getInnerStruct() {
+    return this.innerStruct;
+  }
+
+  public SharedStruct setInnerStruct(InnerStruct innerStruct) {
+    this.innerStruct = innerStruct;
+    return this;
+  }
+
+  public void unsetInnerStruct() {
+    this.innerStruct = null;
+  }
+
+  /** Returns true if field innerStruct is set (has been assigned a value) and false otherwise */
+  public boolean isSetInnerStruct() {
+    return this.innerStruct != null;
+  }
+
+  public void setInnerStructIsSet(boolean value) {
+    if (!value) {
+      this.innerStruct = null;
+    }
+  }
+
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
     case KEY:
@@ -218,6 +255,14 @@ public class SharedStruct implements org.apache.thrift.TBase<SharedStruct, Share
       }
       break;
 
+    case INNER_STRUCT:
+      if (value == null) {
+        unsetInnerStruct();
+      } else {
+        setInnerStruct((InnerStruct)value);
+      }
+      break;
+
     }
   }
 
@@ -228,6 +273,9 @@ public class SharedStruct implements org.apache.thrift.TBase<SharedStruct, Share
 
     case VALUE:
       return getValue();
+
+    case INNER_STRUCT:
+      return getInnerStruct();
 
     }
     throw new IllegalStateException();
@@ -244,6 +292,8 @@ public class SharedStruct implements org.apache.thrift.TBase<SharedStruct, Share
       return isSetKey();
     case VALUE:
       return isSetValue();
+    case INNER_STRUCT:
+      return isSetInnerStruct();
     }
     throw new IllegalStateException();
   }
@@ -276,6 +326,15 @@ public class SharedStruct implements org.apache.thrift.TBase<SharedStruct, Share
       if (!(this_present_value && that_present_value))
         return false;
       if (!this.value.equals(that.value))
+        return false;
+    }
+
+    boolean this_present_innerStruct = true && this.isSetInnerStruct();
+    boolean that_present_innerStruct = true && that.isSetInnerStruct();
+    if (this_present_innerStruct || that_present_innerStruct) {
+      if (!(this_present_innerStruct && that_present_innerStruct))
+        return false;
+      if (!this.innerStruct.equals(that.innerStruct))
         return false;
     }
 
@@ -315,6 +374,16 @@ public class SharedStruct implements org.apache.thrift.TBase<SharedStruct, Share
         return lastComparison;
       }
     }
+    lastComparison = Boolean.valueOf(isSetInnerStruct()).compareTo(typedOther.isSetInnerStruct());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetInnerStruct()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.innerStruct, typedOther.innerStruct);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
     return 0;
   }
 
@@ -344,6 +413,14 @@ public class SharedStruct implements org.apache.thrift.TBase<SharedStruct, Share
       sb.append("null");
     } else {
       sb.append(this.value);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("innerStruct:");
+    if (this.innerStruct == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.innerStruct);
     }
     first = false;
     sb.append(")");
@@ -406,6 +483,15 @@ public class SharedStruct implements org.apache.thrift.TBase<SharedStruct, Share
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
+          case 3: // INNER_STRUCT
+            if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+              struct.innerStruct = new InnerStruct();
+              struct.innerStruct.read(iprot);
+              struct.setInnerStructIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
           default:
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
         }
@@ -427,6 +513,11 @@ public class SharedStruct implements org.apache.thrift.TBase<SharedStruct, Share
       if (struct.value != null) {
         oprot.writeFieldBegin(VALUE_FIELD_DESC);
         oprot.writeString(struct.value);
+        oprot.writeFieldEnd();
+      }
+      if (struct.innerStruct != null) {
+        oprot.writeFieldBegin(INNER_STRUCT_FIELD_DESC);
+        struct.innerStruct.write(oprot);
         oprot.writeFieldEnd();
       }
       oprot.writeFieldStop();
@@ -453,19 +544,25 @@ public class SharedStruct implements org.apache.thrift.TBase<SharedStruct, Share
       if (struct.isSetValue()) {
         optionals.set(1);
       }
-      oprot.writeBitSet(optionals, 2);
+      if (struct.isSetInnerStruct()) {
+        optionals.set(2);
+      }
+      oprot.writeBitSet(optionals, 3);
       if (struct.isSetKey()) {
         oprot.writeI32(struct.key);
       }
       if (struct.isSetValue()) {
         oprot.writeString(struct.value);
       }
+      if (struct.isSetInnerStruct()) {
+        struct.innerStruct.write(oprot);
+      }
     }
 
     @Override
     public void read(org.apache.thrift.protocol.TProtocol prot, SharedStruct struct) throws org.apache.thrift.TException {
       TTupleProtocol iprot = (TTupleProtocol) prot;
-      BitSet incoming = iprot.readBitSet(2);
+      BitSet incoming = iprot.readBitSet(3);
       if (incoming.get(0)) {
         struct.key = iprot.readI32();
         struct.setKeyIsSet(true);
@@ -473,6 +570,11 @@ public class SharedStruct implements org.apache.thrift.TBase<SharedStruct, Share
       if (incoming.get(1)) {
         struct.value = iprot.readString();
         struct.setValueIsSet(true);
+      }
+      if (incoming.get(2)) {
+        struct.innerStruct = new InnerStruct();
+        struct.innerStruct.read(iprot);
+        struct.setInnerStructIsSet(true);
       }
     }
   }
